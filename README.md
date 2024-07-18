@@ -1,79 +1,105 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Lokal React Native Assignment
 
-# Getting Started
+This project is a React Native application that presents users with a job listing interface. The application features bottom navigation with "Jobs" and "Bookmarks" sections, infinite scroll for job listings, detailed job views, and the ability to bookmark jobs for offline viewing.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Features
 
-## Step 1: Start the Metro Server
+1. **Bottom Navigation**
+    - The app opens with a bottom navigation UI with “Jobs” and “Bookmarks” as sections.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+2. **Jobs Screen**
+    - Fetches data from the API in an infinite scroll manner.
+    - Displays title, location, salary, and phone data in each job card.
+    - Appropriate states for loading, error, and empty states are maintained.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+3. **Job Details Screen**
+    - Clicking on a job card shows more details about the job on another screen.
 
-```bash
-# using npm
-npm start
+4. **Bookmarking Jobs**
+    - Users can bookmark a job, and the bookmarked jobs appear in the “Bookmarks” tab.
+    - Bookmarked jobs are stored using AsyncStorage for offline viewing.
 
-# OR using Yarn
-yarn start
-```
+## Technologies Used
 
-## Step 2: Start your Application
+- **React Native**: For building the mobile application.
+- **React Navigation**: For handling navigation within the app.
+- **Axios**: For making API calls.
+- **AsyncStorage**: For offline storage of bookmarked jobs.
+- **react-native-vector-icons**: For using icons in the application.
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+## Getting Started
 
-### For Android
+### Prerequisites
 
-```bash
-# using npm
-npm run android
+- Node.js
+- npm or yarn
+- React Native CLI
 
-# OR using Yarn
-yarn android
-```
+### Installation
 
-### For iOS
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/LaxmanZ/Lokal-React-Native-Assignment.git
+    cd Lokal-React-Native-Assignment
+    ```
 
-```bash
-# using npm
-npm run ios
+2. Install dependencies:
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-# OR using Yarn
-yarn ios
-```
+3. Start the Metro bundler:
+    ```bash
+    npm start
+    # or
+    yarn start
+    ```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+4. Run the application on your device/emulator:
+    ```bash
+    npx react-native run android
+    # or
+    yarn android
+    ```
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+### API
 
-## Step 3: Modifying your App
+- The Jobs screen fetches data from the following API:
+    ```
+    GET https://testapi.getlokalapp.com/common/jobs?page=1
+    ```
 
-Now that you have successfully run the app, let's modify it.
+### AsyncStorage
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+- AsyncStorage is used to store bookmarked jobs for offline viewing. Functions for storing, retrieving, and removing bookmarks are defined in `src/utils/storage.js`.
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+### Usage
 
-## Congratulations! :tada:
+1. **Jobs Screen**: 
+    - On opening the app, users are presented with the Jobs screen.
+    - Infinite scroll is implemented to fetch and display job data.
+    - Each job card shows the job title, location, salary, and phone data.
+    - Users can click on a job card to view more details.
 
-You've successfully run and modified your React Native App. :partying_face:
+2. **Job Details Screen**: 
+    - Displays detailed information about the selected job.
 
-### Now what?
+3. **Bookmarking Jobs**: 
+    - Users can bookmark jobs from the job details screen.
+    - Bookmarked jobs appear in the Bookmarks tab.
+    - Bookmarked jobs are stored in AsyncStorage for offline access.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+4. **Bookmarks Screen**: 
+    - Displays a list of all bookmarked jobs.
+    - Users can view job details from the bookmarks list.
 
-# Troubleshooting
+## Video
+![App Recording](C:\Users\Laxman\OneDrive\Pictures)
 
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
 
-# Learn More
+## Conclusion
 
-To learn more about React Native, take a look at the following resources:
+This project demonstrates a React Native application with features such as infinite scroll, state management, and offline storage using AsyncStorage. The application is easy to navigate, user-friendly, and ensures a smooth experience for users looking for job listings and bookmarking them for future reference.
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
