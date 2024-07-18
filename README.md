@@ -96,7 +96,7 @@ This project is a React Native application that presents users with a job listin
     - Users can view job details from the bookmarks list.
 
 ## Video
-I have recorded a video from my laptop demonstrating the features and functionality of the application. You can watch the video [here](https://drive.google.com/file/d/11AyIhHPvPwuoQjriF7_pd-8U3HMJULsH/view?usp=sharing))
+I have recorded a video from my laptop demonstrating the features and functionality of the application. You can watch the video [here](https://drive.google.com/file/d/11AyIhHPvPwuoQjriF7_pd-8U3HMJULsH/view?usp=sharing)
 
 
 ## Conclusion
