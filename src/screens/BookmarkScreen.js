@@ -5,6 +5,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  ActivityIndicator,
   Image,
 } from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
@@ -18,9 +19,11 @@ import WhatsAppIcon from 'react-native-vector-icons/FontAwesome';
 const BookmarkScreen = () => {
   const navigation = useNavigation();
   const [bookmarks, setBookmarks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchBookmarks = useCallback(async () => {
     try {
+      setIsLoading(true);
       const existingBookmarks = await AsyncStorage.getItem('bookmarks');
       if (existingBookmarks) {
         const parsedBookmarks = JSON.parse(existingBookmarks);
@@ -28,7 +31,9 @@ const BookmarkScreen = () => {
       } else {
         setBookmarks([]);
       }
+      setIsLoading(false);
     } catch (error) {
+      setIsLoading(false);
       console.error('Error fetching bookmarks:', error);
     }
   }, []);
@@ -128,13 +133,23 @@ const BookmarkScreen = () => {
       <View style={styles.bookmarkHeading}>
         <Text style={styles.bookmarkheadingTitle}>Bookmarked Jobs</Text>
       </View>
-      <FlatList
-        data={bookmarks}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        contentContainerStyle={{paddingBottom: 60}}
-        style={styles.flatListContainer}
-      />
+      {isLoading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator color="orange" size="large" />
+        </View>
+      ) : bookmarks.length === 0 ? (
+        <View style={styles.noBookmarksView}>
+          <Text style={styles.noBookmarksText}>No bookmarks found</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={bookmarks}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          contentContainerStyle={{paddingBottom: 60}}
+          style={styles.flatListContainer}
+        />
+      )}
     </View>
   );
 };
@@ -220,6 +235,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: 'black',
     fontWeight: '600',
+  },
+  noBookmarksView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  noBookmarksText: {
+    fontSize: 18,
+    color: colors.bigText,
   },
 });
 

@@ -70,7 +70,6 @@ const JobDetailsScreen = () => {
         setIsBookmarked(true);
         showToast('Job bookmarked successfully!');
       } else {
-        // Remove bookmark if already bookmarked
         const updatedBookmarks = bookmarks.filter(
           bookmark => bookmark.id !== job.id,
         );
@@ -102,11 +101,11 @@ const JobDetailsScreen = () => {
             <View>
               <Text style={styles.title}>{job.job_role}</Text>
               <Text style={styles.noramlText}>{job.company_name}</Text>
-            </View>
-            <View style={styles.vacancyView}>
-              <Text style={styles.vacancyText}>
-                {job.job_tags?.map(tag => tag.value).join(', ')}
-              </Text>
+              <View style={styles.vacancyView}>
+                <Text style={styles.vacancyText}>
+                  {job.job_tags?.map(tag => tag.value).join(', ')}
+                </Text>
+              </View>
             </View>
           </View>
           <View style={styles.grayLine} />
@@ -219,7 +218,7 @@ const JobDetailsScreen = () => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Content V3 Details</Text>
+          <Text style={styles.sectionTitle}>Other Details</Text>
           {job.contentV3?.V3.map((item, index) => (
             <View key={index}>
               <Text style={styles.noramlText}>
@@ -285,6 +284,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.bigText,
+    // width: 200,
   },
   noramlText: {
     color: colors.text,
@@ -310,6 +310,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.bigText,
+    marginBottom: 5,
   },
   bookmarkButton: {
     backgroundColor: colors.primary,
@@ -356,6 +357,7 @@ const styles = StyleSheet.create({
   vacancyView: {
     backgroundColor: '#E7F3FE',
     padding: 3,
+    alignSelf: 'flex-start',
   },
   vacancyText: {
     color: '##0E56A8',

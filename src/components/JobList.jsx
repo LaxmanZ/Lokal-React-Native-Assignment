@@ -18,34 +18,59 @@ import WhatsAppIcon from 'react-native-vector-icons/FontAwesome';
 const JobList = () => {
   const navigation = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [jobData, setJobData] = useState([]);
   const [errors, setErrors] = useState(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get(
-          'https://testapi.getlokalapp.com/common/jobs?page=1',
-        );
-        console.log('API Response:', response.data);
-
-        if (typeof response.data === 'object') {
-          setJobData(response.data.results);
-        } else {
-          console.error('Unexpected response format:', response.data);
-        }
-
-        setIsLoading(false);
-      } catch (error) {
-        console.error('API Error:', error);
-        setErrors(error);
-        setIsLoading(false);
-      }
-    };
-
     fetchJobs();
   }, []);
+
+  const fetchJobs = async (pageNumber = 1) => {
+    try {
+      if (pageNumber === 1) {
+        setIsLoading(true);
+      } else {
+        setIsLoadingMore(true);
+      }
+      const response = await axios.get(
+        `https://testapi.getlokalapp.com/common/jobs?page=${pageNumber}`,
+      );
+      console.log('API Response:', response.data);
+
+      if (typeof response.data === 'object') {
+        const fetchedJobs = response.data.results;
+        if (pageNumber === 1) {
+          setJobData(fetchedJobs);
+        } else {
+          setJobData(prevData => [...prevData, ...fetchedJobs]);
+        }
+        setHasMore(response.data.next !== null);
+      } else {
+        console.error('Unexpected response format:', response.data);
+      }
+
+      setIsLoading(false);
+      setIsLoadingMore(false);
+    } catch (error) {
+      console.error('API Error:', error);
+      setErrors(error);
+      setIsLoading(false);
+      setIsLoadingMore(false);
+    }
+  };
+
+  const loadMoreJobs = () => {
+    if (!isLoadingMore && hasMore) {
+      setPage(prevPage => {
+        const nextPage = prevPage + 1;
+        fetchJobs(nextPage);
+        return nextPage;
+      });
+    }
+  };
 
   const renderItem = ({item}) => {
     const hasValidData = item.title && item.primary_details?.Place;
@@ -59,7 +84,11 @@ const JobList = () => {
     return (
       <TouchableOpacity
         style={styles.card}
-        onPress={() => navigation.navigate('JobDetails', {job: item})}>
+        onPress={
+          hasValidData
+            ? () => navigation.navigate('JobDetails', {job: item})
+            : null
+        }>
         <View style={styles.jobDetailsContainer}>
           <View>
             <Image
@@ -70,7 +99,7 @@ const JobList = () => {
           <Text style={styles.title}>{item.title}</Text>
           {item.primary_details?.Place ? (
             <View style={styles.headingDescription}>
-              <View style={styles.locatonView}>
+              <View style={styles.locationView}>
                 <LocationIcon
                   name="location-dot"
                   size={24}
@@ -101,7 +130,7 @@ const JobList = () => {
             ''
           )}
           {item.custom_link ? (
-            <View style={styles.phoenMainView}>
+            <View style={styles.phoneMainView}>
               <View style={styles.phoneDataView}>
                 <PhoneCallIcon
                   name="phone-call"
@@ -144,6 +173,13 @@ const JobList = () => {
           keyExtractor={keyExtractor}
           renderItem={renderItem}
           contentContainerStyle={styles.flatListContainer}
+          onEndReached={loadMoreJobs}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={
+            isLoadingMore ? (
+              <ActivityIndicator color="orange" size="large" />
+            ) : null
+          }
         />
       )}
     </View>
@@ -176,7 +212,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-
   flatListContainer: {
     flexGrow: 1,
     paddingBottom: 30,
@@ -206,13 +241,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  locatonView: {
+  locationView: {
     flexDirection: 'row',
     gap: 10,
     alignItems: 'center',
     marginTop: 5,
   },
-  phoenMainView: {
+  phoneMainView: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
