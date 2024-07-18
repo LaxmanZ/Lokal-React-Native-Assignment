@@ -73,7 +73,7 @@ This project is a React Native application that presents users with a job listin
 
 ### AsyncStorage
 
-- AsyncStorage is used to store bookmarked jobs for offline viewing. Functions for storing, retrieving, and removing bookmarks are defined in `src/utils/storage.js`.
+- AsyncStorage is used to store bookmarked jobs for offline viewing. Functions for storing, retrieving, and removing bookmarks are defined.`.
 
 ### Usage
 
@@ -96,7 +96,7 @@ This project is a React Native application that presents users with a job listin
     - Users can view job details from the bookmarks list.
 
 ## Video
-![App Recording](C:\Users\Laxman\OneDrive\Pictures)
+I have recorded a video from my laptop demonstrating the features and functionality of the application. You can watch the video [here](https://drive.google.com/file/d/11AyIhHPvPwuoQjriF7_pd-8U3HMJULsH/view?usp=sharing))
 
 
 ## Conclusion
